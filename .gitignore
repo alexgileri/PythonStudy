@@ -1,7 +1,9 @@
 # AGI Custom
-.*
-.html
-.
+README.md
+LICENSE
+.gitattributes
+.gitignore
+venv
 
 
 # Byte-compiled / optimized / DLL files
