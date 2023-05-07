@@ -1,11 +1,11 @@
 # AGI Custom
-.gitattributes
-.gitignore
-.gitignore_global
+.idea
 venv
 README.md
 LICENSE
-
+.gitattributes
+.gitignore
+.gitignore_global
 
 
 # Byte-compiled / optimized / DLL files
