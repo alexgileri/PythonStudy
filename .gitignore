@@ -163,3 +163,4 @@ cython_debug/
 .gitignore_global
 README.html
 README.html
+.gitattributes
