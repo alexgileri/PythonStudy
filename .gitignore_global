@@ -3,3 +3,10 @@
 venv
 LICENSE
 .git*
+
+.idea
+.gitattributes
+.gitignore
+.gitignore_global
+LICENSE
+README.html
