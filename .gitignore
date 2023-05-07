@@ -1,9 +1,8 @@
 # AGI Custom
-README.md
-LICENSE
 .gitattributes
 .gitignore
 venv
+README.md
 
 
 # Byte-compiled / optimized / DLL files
