@@ -1,4 +1,4 @@
-# Content: Class, Function, Partial Function, Operator Overload, Closures, Coroutines, Inheritance,
+# Cntent: Class, Function, Partial Function, Operator Overload, Closures, Coroutines, Inheritance,
          # Global, Iterators, Generators, Decorators, Q
 
 for name in dir():
@@ -10,44 +10,70 @@ for name in dir():
 # Classes: Constructors runs first to init the object
 class Gosu:
     """Class docstring."""
-    skill = 1                           # default skill, class var (won't be seen by the methods)
+    skill = 1                           # class var (won't be seen by the methods), default skill
 
-    def __init__(self, skill):          # constructor, 1st arg is always 'self'
-        """Function docstring."""
-        self.name = "Alex"              # instance variable (object specific)
-        self.skill = 5
+    def __init__(self, skill=0):        # constructor, 1st arg is always 'self'
+        """Function docstring: If no skill is provided, default is 0. 
+        If no default was provided here, it would pick class var skill = 1"""
+        self.name = "Alex"              # instance var (object specific)
+        self.skill = skill              # starting skill, 
         self.maxskill = 10              # hardcoded
-        print('skill:' + str(self.skill))
+        print(self.name + ', skill: ' + str(self.skill))
 
     def __iter__(self):                 # returns an object that has __next__ method
-        # self.skill = 6                # if we want to hardcore start
+        # self.skill = 6                # if we want to define a starting skill
         return self
 
-    def __next__(self):
-        x = self.skill                  # store the current value
-        if x >= self.maxskill:          # stop when it reaches limit
+    def __next__(self):                 # method only for iter object
+        x = self.skill + 1              # store the current value
+        if x = self.maxskill:           # bounds the constructor (common) skill to 10          
             raise StopIteration
-            self.x = x + 1              # else, inc + return
-            return x
+        return x
 
-    def outer(self, a=0, b=0, c=0):     # a,b,c are keywords (order flexibility), defaults are 0
-        x = self.skill                  # func var = outer local var
-        return x + a, x + b             # can return multiple var/sobjects as a tuple
+    def outer(self, a=0, d=0, s=0):     # a,d,s are keywords (order flexibile), defaults are 0
+        x = self.skill                  # func var = outer local var (also among instance vars)
+        attack = x + a 
+        defense = x + d
+        speed = x + s
+        return attack, defense          # can return multiple vars/objects as a tuple
+    
+    def info(self):
+        print("Name: " + self.name + ', Attack: ' + str(self.skill))
+        
+    def __del__(self)
+        class_name = self.__class__.__name__
+        print(class_name + "destroyed")
+        return None
+
 
 # Usage: import Gosu --> lookup order: current dir > PYTHONPATH > default path
 dir(Gosu)
-help(Gosu)                              # access class docstring
-Gosu.__doc__                            # access doc
+help(Gosu)                              # class summary
+Gosu.__doc__                            # access class dosctring
+Gosu.__init__.__doc__                   # access class.function dosctring
+
 obj1 = Gosu                             # notice no () used, constructor didn't run
 Gosu.skill                              # = 1, class var access
 obj1.skill                              # = 1, using default skill
-obj1.name                               # = err, no default class var for name
+#obj1.name                              # = err, no default class var for name
 
 obj2 = Gosu(5)                          # now skill is supplied, constructor ran
-Gosu.skill                              # = 1, same, not relevant
+Gosu.skill                              # = 1, supplied 5 is irrelevant
 [obj2.name, obj2.skill]                 # = ['Alex', 5]
+obj2.outer(a=3, d=2)                    # = (5+2, 5+3) = (7, 8), accessing obj2 functions
 
-obj2.outer(b=3, a=2)                    # = (5+2, 5+3) = (7, 8), accessing obj2 functions
+obj2.info()                             # Name: Alex, Attack: 5, gets the 5 from __init__
+obj2.__next__
+obj2.__iter__
+
+obj2.__name__
+
+
+
+getattr(obj2, 'name')                   # 'Alex', needs 1 string args
+hasattr(obj2, 'age')                    # False
+setattr(obj2, 'age', 30)
+obj2.age                                # 30
 
 
 # -----------------------------------
@@ -291,66 +317,6 @@ producer(sentence, pf)                  # --> running, moving
 
 
 # -----------------------------------
-# Design Patterns
-# 1) Singleton Class: Each class creates one unique object, creates issues during unit tests
-class Singleton:
-   __instance = None
-
-   def __init__(self): # private constructor
-      if Singleton.__instance != None:  # if an instance is already out, don't allow it
-         raise Exception("This class is a singleton!")  
-      else:
-         Singleton.__instance = 1    # if not, keep creating the same instance
-         
-   @staticmethod        # static (common) access
-   def getInstance():   
-        if Singleton.__instance == None:
-            Singleton()
-        return Singleton.__instance  
-   @staticmethod 
-   def printInstance():  
-       print(Singleton.__instance)   
-        
-s1 = Singleton()
-print(s1)
-s1.printInstance()  # = 1
-
-del s1
-s1 = Singleton.getInstance()
-print(s1)                # = 1, keeps creating the same object regardless of the object deletion
-
-s2 = Singleton()        # exception --> can't create multi objects
-
-
-# 2) Factory Class: classes print multiple objects (like a pencil)
-class Factory:
-   __instance = 0
-   
-   def __init__(self): # private constructor   
-       if Factory.__instance != None:  # if an instance is already out
-           Factory.__instance = Factory.__instance + 1 
-       else:
-           Factory.__instance = 1    # o.w. it's the 1st production
-             
-   @staticmethod     
-   def getInstance():   
-        if Factory.__instance == None:
-            Factory()
-        return Factory.__instance
-   @staticmethod 
-   def printInstance():  
-       print(Factory.__instance)
-            
-f1 = Factory()  
-print(f1)
-f1.printInstance()      # = 1st product
-
-f1 = Factory()
-print(f1)               # different object this time
-f1.printInstance()      # = 2nd product
-
-
-# -----------------------------------
 # QUESTIONS
 # -----------------------------------
 # ObjectOriented 01: Deck of Cards, how to subclass the DS to implement blackjack?
@@ -359,6 +325,3 @@ class Deck:
     def Card(value, suit):
         c_value = value
         c_suit = suit
-        
-       
-            
